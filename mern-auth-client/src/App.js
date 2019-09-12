@@ -1,12 +1,28 @@
+// required
 import React from 'react';
-import './App.css';
+import { BrowserRouter as Router } from 'react-router-dom'
 
-function App() {
+
+import './App.css';
+import Content from './content/Content'
+import Header from './nav/header';
+import Nav from './nav/nav';
+
+class App extends React.Component {
+    state = {
+        user: null
+    }
+    render() {
   return (
-    <div className="App">
-    <h1> Hello World</h1>
-    </div>
+      <Router>
+        <div className="App">
+            <Nav user={this.state.user} />
+            <Header />
+            <Content />
+        </div>
+    </Router>
   );
+    }
 }
 
 export default App;

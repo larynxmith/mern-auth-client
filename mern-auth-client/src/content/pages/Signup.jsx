@@ -14,23 +14,23 @@ state ={
 }
 
 storeInput = (e) => {
-    this.setState({ [e.target.name]: e.target.value})
+    this.setState({ [e.target.name]: e.target.value, message: ''})
 }
 
     handleSubmit = (e) => {
         e.preventDefault()
-        console.log('SUBMITTED', this.state, SERVER_URL)
         // send user signup data to server
         axios.post(`${SERVER_URL}/auth/signup`, this.state)
         .then(response => {
-            console.log('SUCCESS', response)
             // store Token in localStorage
             localStorage.setItem('mernToken', response.data.token)
             // update app with user info
             this.props.updateUser()
         })
         .catch(err => {
-            console.log(('Error', err.response.data.message))
+            this.setState({
+                message: `${err.response.status}: ${err.response.data.message}`
+            })
         })
     }
     render() {
@@ -40,6 +40,8 @@ storeInput = (e) => {
         return (
             <div>
                 <h2>Signup</h2>
+                <span className="red">{this.state.message}</span>
+
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <label>First Name:</label>

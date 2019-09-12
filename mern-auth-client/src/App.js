@@ -25,19 +25,22 @@ class App extends React.Component {
         let token = localStorage.getItem('mernToken')
 
     // if ther is a token, try to use it to get the user info
-    if (token) {
-        console.log('token was', token)
-        axios.get(`${SERVER_URL}/auth/current/user`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-        .then(response => {
-            console.log('SUCCESS', response)
-            this.setState({ user: response.data.user })
-        })
-        .catch(err => {
-            console.log('Error with token', err)
-        })
-    }
+        if (token) {
+            console.log('token was', token)
+            axios.get(`${SERVER_URL}/auth/current/user`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(response => {
+                console.log('SUCCESS', response)
+                this.setState({ user: response.data.user })
+            })
+            .catch(err => {
+                console.log('Error with token', err)
+            })
+        }
+        else {
+            this.setState({ user: null })
+        }
     }
 
 
@@ -45,7 +48,7 @@ class App extends React.Component {
   return (
       <Router>
         <div className="App">
-            <Nav user={this.state.user} />
+            <Nav updateUser={this.getUser} user={this.state.user} />
             <Header />
             <Content updateUser={this.getUser} user={this.state.user} />
         </div>

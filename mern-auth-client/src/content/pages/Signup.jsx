@@ -2,8 +2,7 @@
 import React from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
-import { readSync } from 'fs';
-import Profile from './Profile';
+import SERVER_URL from '../../constants'
 
 class  Signup extends React.Component {
 state ={
@@ -20,9 +19,24 @@ storeInput = (e) => {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        console.log('SUBMITTED', this.state)
+        console.log('SUBMITTED', this.state, SERVER_URL)
+        // send user signup data to server
+        axios.post(`${SERVER_URL}/auth/signup`, this.state)
+        .then(response => {
+            console.log('SUCCESS', response)
+            // store Token in localStorage
+            localStorage.setItem('mernToken', response.data.token)
+            // update app with user info
+            this.props.updateUser()
+        })
+        .catch(err => {
+            console.log(('Error', err.response.data.message))
+        })
     }
     render() {
+        if (this.props.user) {
+            return <Redirect to="/profile" />
+        }
         return (
             <div>
                 <h2>Signup</h2>

@@ -1,24 +1,53 @@
 // required
-import React from 'react';
+import axios from 'axios'
+import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 
 import './App.css';
 import Content from './content/Content'
-import Header from './nav/header';
-import Nav from './nav/nav';
+import Header from './nav/Header'
+import Nav from './nav/Nav'
+import SERVER_URL from './constants'
 
 class App extends React.Component {
     state = {
         user: null
     }
+
+    componentDidMount() {
+        // go look for a token
+        this.getUser()
+    }
+
+    getUser = () => {
+        // see if ther is a toekn 
+        let token = localStorage.getItem('mernToken')
+
+    // if ther is a token, try to use it to get the user info
+    if (token) {
+        console.log('token was', token)
+        axios.get(`${SERVER_URL}/auth/current/user`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+        .then(response => {
+            console.log('SUCCESS', response)
+            this.setState({ user: response.data.user })
+        })
+        .catch(err => {
+            console.log('Error with token', err)
+        })
+    }
+    }
+
+
     render() {
   return (
       <Router>
         <div className="App">
             <Nav user={this.state.user} />
             <Header />
-            <Content />
+            <Content updateUser={this.getUser} user={this.state.user} />
         </div>
     </Router>
   );

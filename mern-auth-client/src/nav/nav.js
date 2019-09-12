@@ -39,9 +39,9 @@ class Nav extends Component {
                 <li>
                     <Link to="/">Home</Link>
                 </li>
-                <li>
+                
                     {links}
-                </li>
+                
                 </ul>
             </nav>
         )

@@ -13,6 +13,7 @@ import Signup from './pages/Signup'
 const Content = props => {
     return (
         <div className="container">
+        
             <Route exact path="/" component={Home} />
             <Route path="/profile" component={Profile} />
             <Route path="/login" component={Login} />

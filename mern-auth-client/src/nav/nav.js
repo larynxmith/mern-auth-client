@@ -34,7 +34,7 @@ class Nav extends Component {
 
 
         return(
-            <div>
+            <nav>
                 <ul>
                 <li>
                     <Link to="/">Home</Link>
@@ -43,7 +43,7 @@ class Nav extends Component {
                     {links}
                 </li>
                 </ul>
-            </div>
+            </nav>
         )
     }
 }
